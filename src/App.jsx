@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import './App.css'
-/*
-L’endpoint a cui effettuare la chiamata POST è il seguente: https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts
-Questo endpoint, in caso di successo, vi restituisce i dati inviati. Stampateli in console per verificare di essere riusciti ad inviare correttamente tutto!
-*/
+import axios from 'axios'
+
 function App() {
+  const URL_API = "https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts"
 
   const [formData, setFormData] = useState({
     author : "",
@@ -23,12 +22,20 @@ function App() {
     })
   }
 
+  function handleFormSubmit (event) {
+    event.preventDefault()
+
+    axios.post(URL_API, formData)
+      .then(res => {
+        console.log(res.data)
+      })
+  }
 
   return(
     <>
       <div className="container">
         <div className="inputContainer">
-          <form>
+          <form onSubmit={handleFormSubmit}>
 
             <div className="authorInput">
               <input type="text" placeholder="Inserisci il nome dell'autore" name="author" value={formData.author} onChange={handleFormData}/>
@@ -48,7 +55,7 @@ function App() {
             </div>
 
             <div className="submitInput">
-
+              <button type="submit"> Invia </button>
             </div>
 
           </form>
